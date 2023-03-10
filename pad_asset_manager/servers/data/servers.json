@@ -10,7 +10,7 @@
     "ios_url": "http://patch-na-pad.gungho.jp/base-na.json",
     "android_url": "http://patch-na-pad.gungho.jp/base-na-adr.json",
     "regions": [
-      "north_america", "europe"
+      "north_america"
     ]
   },
   {
