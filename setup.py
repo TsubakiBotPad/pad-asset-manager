@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pad_asset_manager",
-    version="0.0.1",
+    version="1.0.1",
     author="Aradia Megido#2552 and Cody Watts",
     author_email="chasehult@gmail.com",
     license="MIT",

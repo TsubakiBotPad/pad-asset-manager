@@ -1,16 +1,16 @@
-#pad\_asset_manager
+# pad\_asset_manager
 
 
-##Description
+## Description
 
 A Python package for the popular iOS & Android game "Puzzle & Dragons" (PAD).
 
-#Installation
+# Installation
 ```
 pip install pad_asset_manager
 ```
 
-#Example Usage
+# Example Usage
 ```py
 >>> import pad_asset_manager as padtools
 >>> na_server = padtools.regions.north_america.server
