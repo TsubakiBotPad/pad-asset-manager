@@ -26,15 +26,8 @@ class Header(structured_data(("mons_count", "I"), ("cards_count", "I"), ("magic_
 
 
 @dataclass
-class UncompressedMonsterRecord(structured_data(("id_number", "H"), (None, "4x"), (None, "4x"), (None, "4x"),
+class UncompressedAssetRecord(structured_data(("id_number", "H"), (None, "4x"), (None, "4x"), (None, "4x"),
                                                 (None, "2x"), ("uncompressed_size", "I"), (None, "4x"))):
-    id_number: int
-    uncompressed_size: int
-
-
-@dataclass
-class UncompressedCardRecord(structured_data(("id_number", "B"), (None, "x"), (None, "4x"), (None, "4x"), (None, "4x"),
-                                             (None, "2x"), ("uncompressed_size", "I"), (None, "4x"))):
     id_number: int
     uncompressed_size: int
 
@@ -50,8 +43,7 @@ class UnifiedAssetRecord(NamedTuple):
     compressed_size: int
 
     @staticmethod
-    def from_assetrecords(uncompressed: Union[UncompressedMonsterRecord, UncompressedCardRecord],
-                          compressed: CompressedAssetRecord):
+    def from_assetrecords(uncompressed: UncompressedAssetRecord, compressed: CompressedAssetRecord):
         return UnifiedAssetRecord(uncompressed.id_number, uncompressed.uncompressed_size, compressed.compressed_size)
 
 
@@ -65,10 +57,10 @@ def parse(extlist_data: bytes) -> Tuple[List[UnifiedAssetRecord], List[UnifiedAs
         return output
 
     header = read_structured_data(extlist_data, Header, 1)[0]
-    assert header.magic_string == b"EXT1"
+    assert header.magic_string == b"EXT2"
 
-    uncompressed_mons_data = read_structured_data(extlist_data, UncompressedMonsterRecord, header.mons_count)
-    uncompressed_cards_data = read_structured_data(extlist_data, UncompressedCardRecord, header.cards_count)
+    uncompressed_mons_data = read_structured_data(extlist_data, UncompressedAssetRecord, header.mons_count)
+    uncompressed_cards_data = read_structured_data(extlist_data, UncompressedAssetRecord, header.cards_count)
     compressed_mons_data = read_structured_data(extlist_data, CompressedAssetRecord, header.mons_count)
     compressed_cards_data = read_structured_data(extlist_data, CompressedAssetRecord, header.cards_count)
 
@@ -81,5 +73,4 @@ def parse(extlist_data: bytes) -> Tuple[List[UnifiedAssetRecord], List[UnifiedAs
                   for uncompressed, compressed in
                   zip(uncompressed_cards_data, compressed_cards_data)
                   if uncompressed.id_number != 0]
-
     return mons_data, cards_data

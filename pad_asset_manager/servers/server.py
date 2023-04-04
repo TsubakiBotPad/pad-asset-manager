@@ -6,13 +6,17 @@ from .extra import Extra
 
 
 class Server(object):
-    def __init__(self, url):
+    def __init__(self, ios_url, android_url):
+        self._ios_url = ios_url
+        self._android_url = android_url
         self._assets = []
         self._extras = []
-        self._url = url
         self._base = None
         self._extlist_data = None
         self._extdllist_data = None
+
+        # Arbitrary choice for "official" url
+        self._url = ios_url
 
     def _fetch_base(self):
         base_binary_data = http_interface.request(self.url)
@@ -20,7 +24,7 @@ class Server(object):
         assert self._base["res"] == 0
 
     def _fetch_extlist(self):
-        self._extlist_data = self.request_file("extlist.bin")
+        self._extlist_data = self.request_file("extlist2.bin")
         self._assets = []
         mons_data, cards_data = extlist.parse(self._extlist_data)
         # Convert to assets:
@@ -30,7 +34,7 @@ class Server(object):
             mons_asset = Asset(file_name=file_name, url=url, **(mons._asdict()))
             self._assets.append(mons_asset)
         for card in cards_data:
-            file_name = "cards_{id_number:0>3}.bc".format(id_number=card.id_number)
+            file_name = "cards_{id_number:0>3}.bc".format(id_number=card.id_number-50000)
             url = self.extlist_url + "/" + file_name
             cards_asset = Asset(file_name=file_name, url=url, **(card._asdict()))
             self._assets.append(cards_asset)
