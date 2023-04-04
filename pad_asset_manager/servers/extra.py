@@ -10,3 +10,6 @@ class Extra(object):
     @property
     def file_name(self):
         return self._file_name
+
+    def __repr__(self):
+        return f"Asset<{self.file_name}>"
