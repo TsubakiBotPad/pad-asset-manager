@@ -1,0 +1,9 @@
+name: Autoformat
+run-name: AutoPep8
+on: [push]
+jobs:
+  PEP-8-Autoformat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: autopep8
+        uses: peter-evans/autopep8@v2.0.0
