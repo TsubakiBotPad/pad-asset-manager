@@ -29,6 +29,6 @@ class Asset(object):
     @property
     def uncompressed_size(self):
         return self._uncompressed_size
-    
+
     def __repr__(self):
         return f"Asset<{self.file_name}>"

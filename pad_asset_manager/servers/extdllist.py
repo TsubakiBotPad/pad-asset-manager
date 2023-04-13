@@ -6,7 +6,8 @@ T = TypeVar("T")
 
 
 def structured_data(*data_members: Tuple[Union[str, None], str]) -> type:
-    format_string = ''.join([struct_format for attribute_name, struct_format in data_members])
+    format_string = ''.join(
+        [struct_format for attribute_name, struct_format in data_members])
 
     class StructuredData:
         size = struct.calcsize(format_string)
@@ -43,7 +44,8 @@ def parse(extlist_data: bytes) -> List[str]:
     header = read_structured_data(extlist_data, Header, 1)[0]
     assert header.magic_string == b"EXF2"
 
-    extra_files_data = read_structured_data(extlist_data, ExtraFileRecord, header.entry_count)
+    extra_files_data = read_structured_data(
+        extlist_data, ExtraFileRecord, header.entry_count)
 
     extras = []
     for efd in extra_files_data:

@@ -29,14 +29,18 @@ class Server(object):
         mons_data, cards_data = extlist.parse(self._extlist_data)
         # Convert to assets:
         for mons in mons_data:
-            file_name = "mons_{id_number:0>3}.bc".format(id_number=mons.id_number)
+            file_name = "mons_{id_number:0>3}.bc".format(
+                id_number=mons.id_number)
             url = self.extlist_url + "/" + file_name
-            mons_asset = Asset(file_name=file_name, url=url, **(mons._asdict()))
+            mons_asset = Asset(file_name=file_name,
+                               url=url, **(mons._asdict()))
             self._assets.append(mons_asset)
         for card in cards_data:
-            file_name = "cards_{id_number:0>3}.bc".format(id_number=card.id_number-50000)
+            file_name = "cards_{id_number:0>3}.bc".format(
+                id_number=card.id_number-50000)
             url = self.extlist_url + "/" + file_name
-            cards_asset = Asset(file_name=file_name, url=url, **(card._asdict()))
+            cards_asset = Asset(file_name=file_name,
+                                url=url, **(card._asdict()))
             self._assets.append(cards_asset)
 
     def request_file(self, file_name):
