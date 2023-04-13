@@ -18,6 +18,9 @@ def structured_data(*data_members: Tuple[Union[str, None], str]) -> type:
     return StructuredData
 
 
+
+
+
 @dataclass
 class Header(structured_data(("mons_count", "I"), ("cards_count", "I"), ("magic_string", "4s"), (None, "4x"))):
     mons_count: int

@@ -1,24 +1,21 @@
-name: autopep8
-on: pull_request
+# This action works with pull requests and pushes
+name: Continuous Integration
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
 jobs:
-  autopep8:
-    # Check if the PR is not from a fork
-    if: github.event.pull_request.head.repo.full_name == github.repository
+  build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
-      - name: autopep8
-        id: autopep8
-        uses: peter-evans/autopep8@v2
-        with:
-          args: --exit-code --recursive --in-place --aggressive --aggressive .
-      - name: Commit autopep8 changes
-        if: steps.autopep8.outputs.exit-code == 2
-        run: |
-          git config --global user.name 'Peter Evans'
-          git config --global user.email 'peter-evans@users.noreply.github.com'
-          git commit -am "Automated autopep8 fixes"
-          git push
+      - uses: creyD/action_autopep8@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
